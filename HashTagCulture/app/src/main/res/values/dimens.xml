@@ -8,5 +8,7 @@
     <dimen name="entire_date_size">12sp</dimen>
     <dimen name="entire_title_size">14sp</dimen>
 
+    <dimen name="detail_backdrop_height">400dp</dimen>
+
 
 </resources>
