@@ -1,4 +1,4 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.util;
 
 /**
  * Created by Dong on 2015-12-01.

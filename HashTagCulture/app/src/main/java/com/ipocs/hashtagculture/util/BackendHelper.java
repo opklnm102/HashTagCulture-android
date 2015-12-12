@@ -1,4 +1,4 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.util;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -22,12 +22,12 @@ public class BackendHelper {
     }
 
     private BackendHelper(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(endPoint)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        service = retrofit.create(BackendService.class);
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(endPoint)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        service = retrofit.create(BackendService.class);
     }
 
     //Todo: api구현

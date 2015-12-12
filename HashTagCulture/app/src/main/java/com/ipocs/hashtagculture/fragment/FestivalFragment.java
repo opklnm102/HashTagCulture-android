@@ -1,8 +1,8 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.fragment;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,30 +10,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.ipocs.hashtagculture.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class PerformanceFragment extends Fragment {
+public class FestivalFragment extends BaseFragment {
 
-    public static final String TAG = PerformanceFragment.class.getSimpleName();
+    public static final String TAG = FestivalFragment.class.getSimpleName();
 
     @Bind(R.id.tabLayout_menu)
     TabLayout mTabLayoutMenu;
 
-    @Bind(R.id.fragment_container)
+    @Bind(R.id.fragment_container_festival)
     FrameLayout fLayoutFragmentContainer;
 
     FragmentManager fm;
 
-
-
-    public static PerformanceFragment newInstance() {
-        PerformanceFragment fragment = new PerformanceFragment();
+    public static FestivalFragment newInstance() {
+        FestivalFragment fragment = new FestivalFragment();
         return fragment;
     }
 
-    public PerformanceFragment() {
+    public FestivalFragment() {
+        // Required empty public constructor
     }
 
     @Override
@@ -44,7 +45,7 @@ public class PerformanceFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_performance, container, false);
+        View view = inflater.inflate(R.layout.fragment_festival, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -62,22 +63,22 @@ public class PerformanceFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.e(TAG, " " + tab.getPosition());
 
-                Fragment oldFragment = fm.findFragmentById(R.id.fragment_container);
+                Fragment oldFragment = fm.findFragmentById(R.id.fragment_container_festival);
 
                 switch (tab.getPosition()) {
                     case 0:
-                        if(!(oldFragment instanceof RecommendFragment)){
-                            fm.beginTransaction().replace(R.id.fragment_container, RecommendFragment.newInstance()).commit();
+                        if (!(oldFragment instanceof RecommendFragment)) {
+                            fm.beginTransaction().replace(R.id.fragment_container_festival, RecommendFragment.newInstance()).commit();
                         }
                         break;
                     case 1:
-                        if(!(oldFragment instanceof EntireFragment)){
-                            fm.beginTransaction().replace(R.id.fragment_container, EntireFragment.newInstance()).commit();
+                        if (!(oldFragment instanceof EntireFragment)) {
+                            fm.beginTransaction().replace(R.id.fragment_container_festival, EntireFragment.newInstance()).commit();
                         }
                         break;
                     case 2:
-                        if(!(oldFragment instanceof TalkFragment)){
-                            fm.beginTransaction().replace(R.id.fragment_container, TalkFragment.newInstance()).commit();
+                        if (!(oldFragment instanceof TalkFragment)) {
+                            fm.beginTransaction().replace(R.id.fragment_container_festival, TalkFragment.newInstance()).commit();
                         }
                         break;
                 }
@@ -95,16 +96,16 @@ public class PerformanceFragment extends Fragment {
         });
 
         fm = getActivity().getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container_festival);
 
-        if(fragment == null){
+        if (fragment == null) {
             fragment = createFragment();
 
-            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container_festival, fragment).commit();
         }
     }
 
-    public Fragment createFragment(){
+    public Fragment createFragment() {
         return RecommendFragment.newInstance();
     }
 }

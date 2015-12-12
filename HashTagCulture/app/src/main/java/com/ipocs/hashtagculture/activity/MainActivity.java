@@ -1,4 +1,4 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.activity;
 
 
 import android.os.Bundle;
@@ -10,9 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.ipocs.hashtagculture.fragment.ExhibitFragment;
+import com.ipocs.hashtagculture.fragment.FestivalFragment;
+import com.ipocs.hashtagculture.fragment.PerformanceFragment;
+import com.ipocs.hashtagculture.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +24,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -71,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new PerformanceFragment(), "공연");
-        viewPagerAdapter.addFragment(new ExhibitFragment(), "전시");
-        viewPagerAdapter.addFragment(new FestivalFragment(), "축제");
+        viewPagerAdapter.addFragment(PerformanceFragment.newInstance(), "공연");
+        viewPagerAdapter.addFragment(ExhibitFragment.newInstance(), "전시");
+        viewPagerAdapter.addFragment(FestivalFragment.newInstance(), "축제");
         viewPager.setAdapter(viewPagerAdapter);
     }
 

@@ -1,13 +1,17 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.ipocs.hashtagculture.model.Culture;
+import com.ipocs.hashtagculture.R;
 
 import java.util.ArrayList;
 
@@ -46,7 +50,14 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
         holder.tvTitle.setText(item.getTitle());
         holder.tvDateStart.setText(item.getStartDate());
         holder.tvDateEnd.setText(item.getEndDate());
-//        holder.ivSumnail.setImageResource(item.getImgSumnailUrl());  //이미지 url
+
+        if(item.getImgSumnailUrl() != null){    //이미지 url
+            Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
+            holder.ivSumnail.setImageURI(uri);
+        }else{
+            Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
+            holder.ivSumnail.setImageURI(uri);
+        }
 
         ArrayList<String> hashTags = item.getHashTag();
 
@@ -69,7 +80,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
         @Bind(R.id.textView_title)
         TextView tvTitle;
         @Bind(R.id.imageView_sumnail)
-        ImageView ivSumnail;
+        SimpleDraweeView ivSumnail;
         @Bind(R.id.textView_date_start)
         TextView tvDateStart;
         @Bind(R.id.textView_date_end)

@@ -1,4 +1,4 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.activity;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.ipocs.hashtagculture.R;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -60,7 +62,4 @@ public class DetailActivity extends AppCompatActivity {
 //        ivPoster.setImageResource(R.drawable.cheese_2);
 ////        Glide.with(this).load(Cheeses.getRandomCheeseDrawable()).centerCrop().into(ivPoster);
     }
-
-
-
 }

@@ -1,34 +1,38 @@
-package com.ipocs.hashtagculture;
-
+package com.ipocs.hashtagculture.fragment;
 
 import android.os.Bundle;
-
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ipocs.hashtagculture.R;
+import com.ipocs.hashtagculture.adapter.EntireAdapter;
+import com.ipocs.hashtagculture.model.Culture;
+import com.ipocs.hashtagculture.util.SpacesItemDecoration;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class RecommendFragment extends Fragment {
+public class EntireFragment extends BaseFragment {
 
-    @Bind(R.id.recyclerView_recommend)
-    RecyclerView rvRecommend;
+    @Bind(R.id.recyclerView_entire)
+    RecyclerView rvEntire;
 
     ArrayList<Culture> mCultureArrayList;
-    RecommendAdapter mRecommendAdapter;
+    EntireAdapter mEntireAdapter;
 
-    public static RecommendFragment newInstance() {
-        RecommendFragment fragment = new RecommendFragment();
+
+    public static EntireFragment newInstance() {
+        EntireFragment fragment = new EntireFragment();
         return fragment;
     }
 
-    public RecommendFragment() {
+    public EntireFragment() {
         // Required empty public constructor
     }
 
@@ -40,7 +44,7 @@ public class RecommendFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recommend, container, false);
+        View view = inflater.inflate(R.layout.fragment_entire, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -51,17 +55,18 @@ public class RecommendFragment extends Fragment {
 
         mCultureArrayList = new ArrayList<>();
 
-        for(int i=0; i<10; i++){
+        for(int i=0; i<20; i++){
             ArrayList<String> strings = new ArrayList<>();
             Culture culture = new Culture("한국 피아노 협회공연","fdfd","2015-12-22","2015-12-25",strings, false);
             mCultureArrayList.add(culture);
         }
 
-        mRecommendAdapter = new RecommendAdapter(getActivity(), mCultureArrayList);
+        mEntireAdapter = new EntireAdapter(getActivity(), mCultureArrayList);
 
-        rvRecommend.setAdapter(mRecommendAdapter);
-        rvRecommend.setHasFixedSize(true);
-        rvRecommend.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvRecommend.addItemDecoration(new SpacesItemDecoration(24));
+        rvEntire.setAdapter(mEntireAdapter);
+        rvEntire.setHasFixedSize(true);
+//        rvEntire.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rvEntire.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+        rvEntire.addItemDecoration(new SpacesItemDecoration(24));
     }
 }

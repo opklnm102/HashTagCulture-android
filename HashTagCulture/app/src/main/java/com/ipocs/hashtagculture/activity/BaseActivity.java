@@ -1,8 +1,9 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.ipocs.hashtagculture.util.BackendHelper;
 
 /**
  * Created by Dong on 2015-12-01.
@@ -12,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
     protected static BackendHelper requestHelper;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if(requestHelper == null){

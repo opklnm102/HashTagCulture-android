@@ -1,8 +1,11 @@
-package com.ipocs.hashtagculture;
+package com.ipocs.hashtagculture.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.ipocs.hashtagculture.activity.BaseActivity;
+import com.ipocs.hashtagculture.util.BackendHelper;
 
 /**
  * Created by Dong on 2015-12-01.
