@@ -13,6 +13,15 @@ import com.ipocs.hashtagculture.util.BackendHelper;
 public class BaseFragment extends Fragment {
 
     private BaseActivity hostActivity;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     protected static BackendHelper requestHelper;
 

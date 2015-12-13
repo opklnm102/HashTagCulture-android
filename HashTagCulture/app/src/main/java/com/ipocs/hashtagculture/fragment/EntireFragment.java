@@ -1,9 +1,11 @@
 package com.ipocs.hashtagculture.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class EntireFragment extends BaseFragment {
+
+    public static final String TAG = EntireFragment.class.getSimpleName();
 
     @Bind(R.id.recyclerView_entire)
     RecyclerView rvEntire;
@@ -68,5 +72,50 @@ public class EntireFragment extends BaseFragment {
 //        rvEntire.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rvEntire.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         rvEntire.addItemDecoration(new SpacesItemDecoration(24));
+
+
+        Log.e("fragment", TAG + " onViewCreated");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.e("fragment", TAG + " onAttach");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e("fragment", TAG +  " onDestroyView");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.e("fragment", TAG +  " onDetach");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("fragment", TAG +  " onDestroy");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("fragment", TAG +  " onResume");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("fragment", TAG + " onPause");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("fragment", TAG + " onPause");
     }
 }
