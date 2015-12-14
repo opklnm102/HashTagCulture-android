@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.ipocs.hashtagculture.activity.BaseActivity;
-import com.ipocs.hashtagculture.util.BackendHelper;
+import com.ipocs.hashtagculture.utils.BackendHelper;
 
 /**
  * Created by Dong on 2015-12-01.

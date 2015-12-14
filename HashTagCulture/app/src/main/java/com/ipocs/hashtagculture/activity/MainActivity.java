@@ -155,9 +155,15 @@ public class MainActivity extends BaseActivity {
 //            viewPagerAdapter.destroyItem(mViewPager, i, viewPagerAdapter.getItem(i));
 //        }
 
-        ((PerformanceFragment)viewPagerAdapter.getItem(0)).removeFragment();
-        ((ExhibitFragment)viewPagerAdapter.getItem(1)).removeFragment();
-        ((FestivalFragment)viewPagerAdapter.getItem(2)).removeFragment();
+        if(viewPagerAdapter.getItem(0) != null){
+            ((PerformanceFragment)viewPagerAdapter.getItem(0)).removeFragment();
+        }
+        if(viewPagerAdapter.getItem(1) != null){
+            ((ExhibitFragment)viewPagerAdapter.getItem(1)).removeFragment();
+        }
+        if(viewPagerAdapter.getItem(2) != null){
+            ((FestivalFragment)viewPagerAdapter.getItem(2)).removeFragment();
+        }
 
         super.onDestroy();
     }

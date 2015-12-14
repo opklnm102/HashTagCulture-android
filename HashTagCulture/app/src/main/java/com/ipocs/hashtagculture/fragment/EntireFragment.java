@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.ipocs.hashtagculture.R;
 import com.ipocs.hashtagculture.adapter.EntireAdapter;
 import com.ipocs.hashtagculture.model.Culture;
-import com.ipocs.hashtagculture.util.SpacesItemDecoration;
+import com.ipocs.hashtagculture.utils.SpacesItemDecoration;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,6 @@ public class EntireFragment extends BaseFragment {
 
     ArrayList<Culture> mCultureArrayList;
     EntireAdapter mEntireAdapter;
-
 
     public static EntireFragment newInstance() {
         EntireFragment fragment = new EntireFragment();
@@ -59,11 +58,11 @@ public class EntireFragment extends BaseFragment {
 
         mCultureArrayList = new ArrayList<>();
 
-        for(int i=0; i<20; i++){
-            ArrayList<String> strings = new ArrayList<>();
-            Culture culture = new Culture("한국 피아노 협회공연","fdfd","2015-12-22","2015-12-25",strings, false);
-            mCultureArrayList.add(culture);
-        }
+//        for(int i=0; i<20; i++){
+//            ArrayList<String> strings = new ArrayList<>();
+//            Culture culture = new Culture("한국 피아노 협회공연","fdfd","2015-12-22","2015-12-25",strings, false);
+//            mCultureArrayList.add(culture);
+//        }
 
         mEntireAdapter = new EntireAdapter(getActivity(), mCultureArrayList);
 
@@ -73,8 +72,13 @@ public class EntireFragment extends BaseFragment {
         rvEntire.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         rvEntire.addItemDecoration(new SpacesItemDecoration(24));
 
-
         Log.e("fragment", TAG + " onViewCreated");
+    }
+
+    public void setData(ArrayList<Culture> cultureArrayList){
+        Log.e(TAG, " " + cultureArrayList);
+        Log.e(TAG, " " + mEntireAdapter);
+        mEntireAdapter.setData(cultureArrayList);
     }
 
     @Override

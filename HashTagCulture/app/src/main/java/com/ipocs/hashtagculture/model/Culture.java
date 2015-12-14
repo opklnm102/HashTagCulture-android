@@ -1,18 +1,48 @@
 package com.ipocs.hashtagculture.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Dong on 2015-12-01.
  */
-public class Culture {
+public class Culture implements Serializable {
 
+    Integer id;
     String title;
     String imgSumnailUrl;
-    String startDate;
-    String endDate;
-    ArrayList<String> hashTag;
-    boolean bookMark;
+    @SerializedName("startdate")
+    Long startDate;
+    @SerializedName("enddate")
+    Long endDate;
+    String category;
+    String area;
+    //ArrayList<String> hashTag;
+    //boolean bookMark;
+
+    public Culture() {
+    }
+
+    public Culture(Integer id, String title, String imgSumnailUrl, Long startDate, Long endDate, String category, String area) {
+        this.id = id;
+        this.title = title;
+        this.imgSumnailUrl = imgSumnailUrl;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.category = category;
+        this.area = area;
+    }
+
+    public Integer getId() {
+
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -30,47 +60,35 @@ public class Culture {
         this.imgSumnailUrl = imgSumnailUrl;
     }
 
-    public String getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
-    public ArrayList<String> getHashTag() {
-        return hashTag;
+    public String getCategory() {
+        return category;
     }
 
-    public void setHashTag(ArrayList<String> hashTag) {
-        this.hashTag = hashTag;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public boolean isBookMark() {
-        return bookMark;
+    public String getArea() {
+        return area;
     }
 
-    public void setBookMark(boolean bookMark) {
-        this.bookMark = bookMark;
-    }
-
-    public Culture() {
-    }
-
-    public Culture(String title, String imgSumnailUrl, String startDate, String endDate, ArrayList<String> hashTag, boolean bookMark) {
-        this.title = title;
-        this.imgSumnailUrl = imgSumnailUrl;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.hashTag = hashTag;
-        this.bookMark = bookMark;
+    public void setArea(String area) {
+        this.area = area;
     }
 }

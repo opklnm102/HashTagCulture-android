@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.ipocs.hashtagculture.fragment.TalkFragment;
 import com.ipocs.hashtagculture.model.Culture;
 import com.ipocs.hashtagculture.R;
+import com.ipocs.hashtagculture.utils.TimeUtils;
 
 import java.util.ArrayList;
 
@@ -47,8 +49,8 @@ public class EntireAdapter extends RecyclerView.Adapter<EntireAdapter.EntireView
         Culture item = mCultureArrayList.get(position);
 
         holder.tvTitle.setText(item.getTitle());
-        holder.tvDateStart.setText(item.getStartDate());
-        holder.tvDateEnd.setText(item.getEndDate());
+        holder.tvDateStart.setText(TimeUtils.UnixTimeStampToStringDate(item.getStartDate()));
+        holder.tvDateEnd.setText(TimeUtils.UnixTimeStampToStringDate(item.getEndDate()));
 
         if(item.getImgSumnailUrl() != null){    //이미지 url
             Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
@@ -84,5 +86,10 @@ public class EntireAdapter extends RecyclerView.Adapter<EntireAdapter.EntireView
 
             ButterKnife.bind(this, mView);
         }
+    }
+
+    public void setData(ArrayList<Culture> cultureArrayList){
+        mCultureArrayList = cultureArrayList;
+        notifyDataSetChanged();
     }
 }

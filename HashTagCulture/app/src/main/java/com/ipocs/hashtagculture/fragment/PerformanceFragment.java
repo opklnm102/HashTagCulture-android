@@ -12,12 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.ipocs.hashtagculture.R;
+import com.ipocs.hashtagculture.model.Culture;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 public class PerformanceFragment extends BaseFragment {
@@ -32,6 +39,8 @@ public class PerformanceFragment extends BaseFragment {
 
     FragmentManager fm;
     ArrayList<BaseFragment> mBaseFragments;
+
+    ArrayList<Culture> cultureArrayList;
 
     public static PerformanceFragment newInstance() {
         PerformanceFragment fragment = new PerformanceFragment();
@@ -78,6 +87,7 @@ public class PerformanceFragment extends BaseFragment {
                     case 1:
                         if (!(oldFragment instanceof EntireFragment)) {
                             fm.beginTransaction().replace(R.id.fragment_container_performance, mBaseFragments.get(1)).commit();
+                            getPerformanceEntire();
                         }
                         break;
                     case 2:
@@ -110,6 +120,7 @@ public class PerformanceFragment extends BaseFragment {
                     break;
                 case 1:
                     fm.beginTransaction().add(R.id.fragment_container_performance, mBaseFragments.get(1)).commit();
+                    getPerformanceEntire();
                     break;
                 case 2:
                     fm.beginTransaction().add(R.id.fragment_container_performance, mBaseFragments.get(2)).commit();
@@ -129,6 +140,7 @@ public class PerformanceFragment extends BaseFragment {
                     Log.e("fragment", TAG + " createFragment else 1");
                     if (!(fragment instanceof EntireFragment)) {
                         fm.beginTransaction().replace(R.id.fragment_container_performance, mBaseFragments.get(1)).commit();
+                        getPerformanceEntire();
                     }
                     break;
                 case 2:
@@ -166,7 +178,7 @@ public class PerformanceFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         Fragment fragment = fm.findFragmentById(R.id.fragment_container_performance);
-        if(fragment != null){
+        if (fragment != null) {
             Log.e("fragment", TAG + " onDestroyView " + fragment.getClass().getSimpleName());
             fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
         }
@@ -174,9 +186,9 @@ public class PerformanceFragment extends BaseFragment {
         Log.e("fragment", TAG + " onDestroyView");
     }
 
-    public void removeFragment(){
+    public void removeFragment() {
         Fragment fragment = fm.findFragmentById(R.id.fragment_container_performance);
-        if(fragment != null){
+        if (fragment != null) {
             Log.e("fragment", TAG + " onDestroyView " + fragment.getClass().getSimpleName());
             fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
         }
@@ -198,6 +210,17 @@ public class PerformanceFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         Log.e("fragment", TAG + " onResume");
+
+        switch (mTabLayoutMenu.getSelectedTabPosition()) {
+            case 0:
+                break;
+            case 1:
+                getPerformanceEntire();
+                break;
+            case 2:
+
+                break;
+        }
     }
 
     @Override
@@ -210,5 +233,39 @@ public class PerformanceFragment extends BaseFragment {
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         Log.e("fragment", TAG + " onViewStateRestored");
+    }
+
+    public void getPerformanceEntire() {
+
+        Call<JsonArray> call = requestHelper.getPerformanceEntire();
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Response<JsonArray> response, Retrofit retrofit) {
+
+                JsonArray jsonArray = response.body();
+
+                if (jsonArray != null) {
+
+                    cultureArrayList = new ArrayList<>();
+
+                    Log.d(TAG, " jsonArray is " + jsonArray);
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
+
+                        Culture culture = new Gson().fromJson(jsonArray.get(i), Culture.class);
+                        cultureArrayList.add(culture);
+                    }
+                }
+
+                Log.e(TAG, " " + cultureArrayList);
+                ((EntireFragment) mBaseFragments.get(1)).setData(cultureArrayList);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, " Throwable is " + t);
+            }
+        });
     }
 }

@@ -4,7 +4,6 @@ package com.ipocs.hashtagculture.fragment;
 import android.content.Context;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 import com.ipocs.hashtagculture.adapter.RecommendAdapter;
 import com.ipocs.hashtagculture.model.Culture;
 import com.ipocs.hashtagculture.R;
-import com.ipocs.hashtagculture.util.SpacesItemDecoration;
+import com.ipocs.hashtagculture.utils.SpacesItemDecoration;
 
 import java.util.ArrayList;
 
@@ -60,11 +59,11 @@ public class RecommendFragment extends BaseFragment {
 
         mCultureArrayList = new ArrayList<>();
 
-        for(int i=0; i<10; i++){
-            ArrayList<String> strings = new ArrayList<>();
-            Culture culture = new Culture("한국 피아노 협회공연","fdfd","2015-12-22","2015-12-25",strings, false);
-            mCultureArrayList.add(culture);
-        }
+//        for(int i=0; i<10; i++){
+//            ArrayList<String> strings = new ArrayList<>();
+//            Culture culture = new Culture("한국 피아노 협회공연","fdfd","2015-12-22","2015-12-25",strings, false);
+//            mCultureArrayList.add(culture);
+//        }
 
         mRecommendAdapter = new RecommendAdapter(getActivity(), mCultureArrayList);
 

@@ -1,4 +1,4 @@
-package com.ipocs.hashtagculture.util;
+package com.ipocs.hashtagculture.utils;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
