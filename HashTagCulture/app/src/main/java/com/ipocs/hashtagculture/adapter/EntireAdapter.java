@@ -1,6 +1,7 @@
 package com.ipocs.hashtagculture.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.ipocs.hashtagculture.activity.DetailActivity;
 import com.ipocs.hashtagculture.fragment.TalkFragment;
 import com.ipocs.hashtagculture.model.Culture;
 import com.ipocs.hashtagculture.R;
@@ -46,20 +48,28 @@ public class EntireAdapter extends RecyclerView.Adapter<EntireAdapter.EntireView
     @Override
     public void onBindViewHolder(EntireViewHolder holder, int position) {
 
-        Culture item = mCultureArrayList.get(position);
+        final Culture item = mCultureArrayList.get(position);
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvDateStart.setText(TimeUtils.UnixTimeStampToStringDate(item.getStartDate()));
         holder.tvDateEnd.setText(TimeUtils.UnixTimeStampToStringDate(item.getEndDate()));
 
-        if(item.getImgSumnailUrl() != null){    //이미지 url
-            Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
+        if(item.getMainPosterUrl() != null){    //이미지 url
+            Uri uri = Uri.parse(item.getMainPosterUrl());
             holder.ivSumnail.setImageURI(uri);
         }else{
             Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
             holder.ivSumnail.setImageURI(uri);
         }
 
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("id", item.getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

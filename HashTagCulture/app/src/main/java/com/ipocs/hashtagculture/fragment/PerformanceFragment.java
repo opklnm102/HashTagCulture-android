@@ -268,4 +268,9 @@ public class PerformanceFragment extends BaseFragment {
             }
         });
     }
+
+    public void getPerformanceRecommend(){
+
+        Call<JsonArray> call = requestHelper.getPerformanceRecommend();
+    }
 }

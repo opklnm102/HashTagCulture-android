@@ -6,7 +6,8 @@
     android:layout_width="wrap_content"
     android:layout_height="300dp"
     android:background="#fefefe"
-    app:cardCornerRadius="6dp">
+    app:cardCornerRadius="6dp"
+    xmlns:fresco="http://schemas.android.com/tools">
 
     <RelativeLayout
         style="@style/Widget.CardContent"
@@ -19,12 +20,17 @@
             android:layout_height="240dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/img1"/>
+            android:src="@drawable/img1"
+            fresco:placeholderImage="@color/window_background"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:failureImage="@drawable/img1"
+            fresco:failureImageScaleType="fitCenter"/>
 
         <TextView
             android:textSize="@dimen/entire_title_size"
             android:id="@+id/textView_title"
-            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageView_sumnail"
             android:layout_alignParentLeft="true"

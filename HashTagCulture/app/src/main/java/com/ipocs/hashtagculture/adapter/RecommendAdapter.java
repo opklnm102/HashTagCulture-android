@@ -52,10 +52,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
         holder.tvDateStart.setText(TimeUtils.UnixTimeStampToStringDate(item.getStartDate()));
         holder.tvDateEnd.setText(TimeUtils.UnixTimeStampToStringDate(item.getEndDate()));
 
-        if(item.getImgSumnailUrl() != null){    //이미지 url
-            Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
+        if (item.getMainPosterUrl() != null) {    //이미지 url
+            Uri uri = Uri.parse(item.getMainPosterUrl());
             holder.ivSumnail.setImageURI(uri);
-        }else{
+        } else {
             Uri uri = Uri.parse("http://www.culture.go.kr/upload/rdf/1435908782387o%EB%B3%91%EC%82%AC%EC%9D%B4%EC%95%BC%EA%B8%B0_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
             holder.ivSumnail.setImageURI(uri);
         }

@@ -135,7 +135,6 @@ public class FestivalFragment extends BaseFragment {
                     break;
             }
         }
-
         Log.e("fragment", TAG + " onViewCreated");
     }
 

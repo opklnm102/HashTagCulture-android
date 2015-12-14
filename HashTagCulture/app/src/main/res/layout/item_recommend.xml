@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="#fefefe">
+    android:background="#fefefe"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +17,11 @@
             android:layout_height="160dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/img1"/>
+            android:src="@drawable/img1"
+            fresco:placeholderImage="@color/window_background"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:failureImage="@drawable/img1"
+            fresco:failureImageScaleType="fitCenter"/>
 
         <TextView
             android:id="@+id/textView_title"

@@ -12,7 +12,8 @@ public class Culture implements Serializable {
 
     Integer id;
     String title;
-    String imgSumnailUrl;
+    @SerializedName("mainposterurl")
+    String mainPosterUrl;
     @SerializedName("startdate")
     Long startDate;
     @SerializedName("enddate")
@@ -25,10 +26,10 @@ public class Culture implements Serializable {
     public Culture() {
     }
 
-    public Culture(Integer id, String title, String imgSumnailUrl, Long startDate, Long endDate, String category, String area) {
+    public Culture(Integer id, String title, String mainPosterUrl, Long startDate, Long endDate, String category, String area) {
         this.id = id;
         this.title = title;
-        this.imgSumnailUrl = imgSumnailUrl;
+        this.mainPosterUrl = mainPosterUrl;
         this.startDate = startDate;
         this.endDate = endDate;
         this.category = category;
@@ -52,12 +53,12 @@ public class Culture implements Serializable {
         this.title = title;
     }
 
-    public String getImgSumnailUrl() {
-        return imgSumnailUrl;
+    public String getMainPosterUrl() {
+        return mainPosterUrl;
     }
 
-    public void setImgSumnailUrl(String imgSumnailUrl) {
-        this.imgSumnailUrl = imgSumnailUrl;
+    public void setMainPosterUrl(String mainPosterUrl) {
+        this.mainPosterUrl = mainPosterUrl;
     }
 
     public Long getStartDate() {
