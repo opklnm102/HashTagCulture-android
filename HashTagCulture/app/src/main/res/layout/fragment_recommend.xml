@@ -30,7 +30,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
-                android:src="@android:drawable/arrow_down_float"/>
+                android:src="@android:drawable/arrow_up_float"/>
         </RelativeLayout>
 
         <LinearLayout

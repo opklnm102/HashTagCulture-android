@@ -31,11 +31,13 @@ public class EntireAdapter extends RecyclerView.Adapter<EntireAdapter.EntireView
     private Context mContext;
     private final LayoutInflater mLayoutInflater;
     private ArrayList<Culture> mCultureArrayList;
+    private int mHostFragmentCode;
 
-    public EntireAdapter(Context context, ArrayList<Culture> cultureArrayList) {
+    public EntireAdapter(Context context, ArrayList<Culture> cultureArrayList, int hostFragmentCode) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mCultureArrayList = cultureArrayList;
+        mHostFragmentCode = hostFragmentCode;
     }
 
     @Override
@@ -66,6 +68,7 @@ public class EntireAdapter extends RecyclerView.Adapter<EntireAdapter.EntireView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("hostFragmentCode", mHostFragmentCode);
                 intent.putExtra("id", item.getId());
                 mContext.startActivity(intent);
             }

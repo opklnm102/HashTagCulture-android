@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.ipocs.hashtagculture.R;
+import com.ipocs.hashtagculture.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -142,10 +143,13 @@ public class FestivalFragment extends BaseFragment {
         mBaseFragments = new ArrayList<>();
 
         RecommendFragment recommendFragment = RecommendFragment.newInstance();
+        recommendFragment.setCategoryCode(Constants.REQUEST_CODE_FESTIVAL_FRAGMENT);
         recommendFragment.setTitle("추천");
         EntireFragment entireFragment = EntireFragment.newInstance();
+        entireFragment.setCategoryCode(Constants.REQUEST_CODE_FESTIVAL_FRAGMENT);
         entireFragment.setTitle("전체");
         TalkFragment talkFragment = TalkFragment.newInstance();
+        talkFragment.setCategoryCode(Constants.REQUEST_CODE_FESTIVAL_FRAGMENT);
         talkFragment.setTitle("톡");
 
         mBaseFragments.add(recommendFragment);

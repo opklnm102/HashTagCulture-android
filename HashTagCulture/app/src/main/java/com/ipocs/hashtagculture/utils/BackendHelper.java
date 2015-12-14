@@ -3,11 +3,14 @@ package com.ipocs.hashtagculture.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * Created by Dong on 2015-12-01.
@@ -47,8 +50,8 @@ public class BackendHelper {
 
     //Todo: query parameter
     //추천 공연 정보
-    public Call<JsonArray> getPerformanceRecommend(){
-        return service.getPerformanceRecommend();
+    public Call<JsonArray> getPerformanceRecommend(List<String> categories, List<String> locations, long startDate, long endDate){
+        return service.getPerformanceRecommend(categories, locations, startDate, endDate);
     }
 
     //상세 공연 정보
@@ -63,8 +66,8 @@ public class BackendHelper {
 
     //Todo: query parameter
     //추천 전시 정보
-    public Call<JsonArray> getExhibitRecommend(){
-        return service.getExhibitRecommend();
+    public Call<JsonArray> getExhibitRecommend(List<String> categories, List<String> locations, long startDate, long endDate){
+        return service.getExhibitRecommend(categories, locations, startDate, endDate);
     }
 
     //상세 전시 정보

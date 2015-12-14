@@ -164,7 +164,6 @@ public class MainActivity extends BaseActivity {
         if(viewPagerAdapter.getItem(2) != null){
             ((FestivalFragment)viewPagerAdapter.getItem(2)).removeFragment();
         }
-
         super.onDestroy();
     }
 

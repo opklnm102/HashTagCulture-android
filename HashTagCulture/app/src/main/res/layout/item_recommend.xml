@@ -24,10 +24,10 @@
             fresco:failureImageScaleType="fitCenter"/>
 
         <TextView
+            android:layout_below="@id/imageView_sumnail"
             android:id="@+id/textView_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:text="한국 피아노협회 공연"/>
 

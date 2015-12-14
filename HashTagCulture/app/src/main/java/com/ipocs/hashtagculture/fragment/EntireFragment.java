@@ -64,7 +64,7 @@ public class EntireFragment extends BaseFragment {
 //            mCultureArrayList.add(culture);
 //        }
 
-        mEntireAdapter = new EntireAdapter(getActivity(), mCultureArrayList);
+        mEntireAdapter = new EntireAdapter(getActivity(), mCultureArrayList, super.getCategoryCode());
 
         rvEntire.setAdapter(mEntireAdapter);
         rvEntire.setHasFixedSize(true);

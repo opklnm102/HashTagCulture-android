@@ -16,8 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.ipocs.hashtagculture.R;
 import com.ipocs.hashtagculture.model.Culture;
+import com.ipocs.hashtagculture.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -158,10 +160,13 @@ public class PerformanceFragment extends BaseFragment {
         mBaseFragments = new ArrayList<>();
 
         RecommendFragment recommendFragment = RecommendFragment.newInstance();
+        recommendFragment.setCategoryCode(Constants.REQUEST_CODE_PERFORMANCE_FRAGMENT);
         recommendFragment.setTitle("추천");
         EntireFragment entireFragment = EntireFragment.newInstance();
+        entireFragment.setCategoryCode(Constants.REQUEST_CODE_PERFORMANCE_FRAGMENT);
         entireFragment.setTitle("전체");
         TalkFragment talkFragment = TalkFragment.newInstance();
+        talkFragment.setCategoryCode(Constants.REQUEST_CODE_PERFORMANCE_FRAGMENT);
         talkFragment.setTitle("톡");
 
         mBaseFragments.add(recommendFragment);
@@ -252,7 +257,6 @@ public class PerformanceFragment extends BaseFragment {
                     Log.d(TAG, " jsonArray is " + jsonArray);
 
                     for (int i = 0; i < jsonArray.size(); i++) {
-
                         Culture culture = new Gson().fromJson(jsonArray.get(i), Culture.class);
                         cultureArrayList.add(culture);
                     }
@@ -269,8 +273,36 @@ public class PerformanceFragment extends BaseFragment {
         });
     }
 
-    public void getPerformanceRecommend(){
+    public void getPerformanceRecommend(List<String> categories, List<String> locations, long startDate, long endDate) {
 
-        Call<JsonArray> call = requestHelper.getPerformanceRecommend();
+        Call<JsonArray> call = requestHelper.getPerformanceRecommend(categories, locations, startDate, endDate);
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Response<JsonArray> response, Retrofit retrofit) {
+
+                JsonArray jsonArray = response.body();
+
+                if (jsonArray != null) {
+
+                    cultureArrayList = new ArrayList<>();
+
+                    Log.d(TAG, " jsonArray is " + jsonArray);
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        Culture culture = new Gson().fromJson(jsonArray.get(i), Culture.class);
+                        cultureArrayList.add(culture);
+                    }
+                }
+
+                Log.e(TAG, " " + cultureArrayList);
+                ((RecommendFragment) mBaseFragments.get(0)).setData(cultureArrayList);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, " Throwable is " + t);
+            }
+        });
     }
 }

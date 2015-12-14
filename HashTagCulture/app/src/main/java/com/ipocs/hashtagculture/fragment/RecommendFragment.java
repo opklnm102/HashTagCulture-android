@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,17 +21,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.ipocs.hashtagculture.adapter.RecommendAdapter;
 import com.ipocs.hashtagculture.model.Culture;
 import com.ipocs.hashtagculture.R;
+import com.ipocs.hashtagculture.utils.Constants;
 import com.ipocs.hashtagculture.utils.SpacesItemDecoration;
+import com.ipocs.hashtagculture.utils.TimeUtils;
 import com.ipocs.hashtagculture.widget.SelectTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class RecommendFragment extends BaseFragment implements View.OnClickListener {
 
@@ -66,10 +77,15 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
     @Bind(R.id.textView_tag_etc)
     SelectTextView tvTagEtc;
 
-    boolean tagShowFlag = false;
+    boolean tagShowFlag;
 
     ArrayList<Culture> mCultureArrayList;
     RecommendAdapter mRecommendAdapter;
+
+    ArrayList<SelectTextView> mSelectTextViews;
+
+    List<String> categorys;
+    List<String> locations;
 
     public static RecommendFragment newInstance() {
         RecommendFragment fragment = new RecommendFragment();
@@ -98,14 +114,22 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
         super.onViewCreated(view, savedInstanceState);
 
         mCultureArrayList = new ArrayList<>();
+        mSelectTextViews = new ArrayList<>();
 
-//        for(int i=0; i<10; i++){
-//            ArrayList<String> strings = new ArrayList<>();
-//            Culture culture = new Culture("한국 피아노 협회공연","fdfd","2015-12-22","2015-12-25",strings, false);
-//            mCultureArrayList.add(culture);
-//        }
+        categorys = new ArrayList<>();
+        locations = new ArrayList<>();
+        locations.add("서울");
 
-        mRecommendAdapter = new RecommendAdapter(getActivity(), mCultureArrayList);
+        mSelectTextViews.add(tvTagMusic);
+        mSelectTextViews.add(tvTagConcert);
+        mSelectTextViews.add(tvTagTheater);
+        mSelectTextViews.add(tvTagGukak);
+        mSelectTextViews.add(tvTagArt);
+        mSelectTextViews.add(tvTagEtc);
+
+        tagShowFlag = false;
+
+        mRecommendAdapter = new RecommendAdapter(getActivity(), mCultureArrayList, super.getCategoryCode());
 
         rvRecommend.setAdapter(mRecommendAdapter);
         rvRecommend.setHasFixedSize(true);
@@ -121,13 +145,138 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
                 tagShowFlag = !tagShowFlag;
 
                 if (tagShowFlag) {
-                    linearTag.setVisibility(View.VISIBLE);
-                    ivTagShow.setImageResource(android.R.drawable.arrow_up_float);
-
-                } else {
                     linearTag.setVisibility(View.GONE);
                     ivTagShow.setImageResource(android.R.drawable.arrow_down_float);
+                } else {
+                    linearTag.setVisibility(View.VISIBLE);
+                    ivTagShow.setImageResource(android.R.drawable.arrow_up_float);
                 }
+            }
+        });
+    }
+
+    public void setData(ArrayList<Culture> cultureArrayList) {
+        Log.e(TAG, " " + cultureArrayList);
+        Log.e(TAG, " " + mRecommendAdapter);
+        mRecommendAdapter.setData(cultureArrayList);
+    }
+
+    @OnClick({R.id.textView_tag_music, R.id.textView_tag_concert, R.id.textView_tag_theater, R.id.textView_tag_gukak, R.id.textView_tag_art, R.id.textView_tag_etc})
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.textView_tag_music:
+                tvTagMusic.setSelect(!tvTagMusic.getSelect());
+                break;
+            case R.id.textView_tag_concert:
+                tvTagConcert.setSelect(!tvTagConcert.getSelect());
+                break;
+            case R.id.textView_tag_theater:
+                tvTagTheater.setSelect(!tvTagTheater.getSelect());
+                break;
+            case R.id.textView_tag_gukak:
+                tvTagGukak.setSelect(!tvTagGukak.getSelect());
+                break;
+            case R.id.textView_tag_art:
+                tvTagArt.setSelect(!tvTagArt.getSelect());
+                break;
+            case R.id.textView_tag_etc:
+                tvTagEtc.setSelect(!tvTagEtc.getSelect());
+                break;
+        }
+
+        categorys = new ArrayList<>();
+
+        for(SelectTextView selectTextView : mSelectTextViews){
+            if(selectTextView.getSelect()){
+                selectTextView.setBackgroundResource(R.drawable.category_shape_select);
+                categorys.add(selectTextView.getText().toString());
+            }else{
+                selectTextView.setBackgroundResource(R.drawable.category_shape_normal);
+            }
+        }
+
+        getRecommendInformance();
+    }
+
+    public void getRecommendInformance() {
+        long currentTime = TimeUtils.getTodayTime();
+
+        Log.e(TAG, " " + currentTime + " " + (currentTime +  (60 * 60 * 24 * 30)));
+
+        switch (super.getCategoryCode()) {
+            case Constants.REQUEST_CODE_PERFORMANCE_FRAGMENT:
+                getPerformanceRecommend(categorys, locations, 1416009600, 1420329600);
+                break;
+            case Constants.REQUEST_CODE_EXHIBIT_FRAGMENT:
+                getExhibitRecommend(categorys, locations, 1416009600, 1420329600);
+                break;
+            case Constants.REQUEST_CODE_FESTIVAL_FRAGMENT:
+                break;
+        }
+    }
+
+    //추천 공연 정보
+    public void getPerformanceRecommend(List<String> categories, List<String> locations, long startDate, long endDate) {
+
+        Call<JsonArray> call = requestHelper.getPerformanceRecommend(categories, locations, startDate, endDate);
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Response<JsonArray> response, Retrofit retrofit) {
+
+                JsonArray jsonArray = response.body();
+
+                if(jsonArray != null) {
+
+                    mCultureArrayList = new ArrayList<Culture>();
+
+                    Log.d(TAG, " jsonArray is " + jsonArray);
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        Culture culture = new Gson().fromJson(jsonArray.get(i), Culture.class);
+                        mCultureArrayList.add(culture);
+                    }
+                   setData(mCultureArrayList);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, " Throwable is " + t);
+            }
+        });
+    }
+
+    //추천 전시 정보
+    public void getExhibitRecommend(List<String> categories, List<String> locations, long startDate, long endDate) {
+
+        Call<JsonArray> call = requestHelper.getExhibitRecommend(categories, locations, startDate, endDate);
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Response<JsonArray> response, Retrofit retrofit) {
+
+                JsonArray jsonArray = response.body();
+
+                if(jsonArray != null) {
+
+                    mCultureArrayList = new ArrayList<Culture>();
+
+                    Log.d(TAG, " jsonArray is " + jsonArray);
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        Culture culture = new Gson().fromJson(jsonArray.get(i), Culture.class);
+                        mCultureArrayList.add(culture);
+                    }
+                    setData(mCultureArrayList);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, " Throwable is " + t);
             }
         });
     }
@@ -172,61 +321,5 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
     public void onPause() {
         super.onPause();
         Log.e("fragment", TAG + " onPause");
-    }
-
-    @OnClick({R.id.textView_tag_music, R.id.textView_tag_concert, R.id.textView_tag_theater, R.id.textView_tag_gukak, R.id.textView_tag_art, R.id.textView_tag_etc})
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()){
-            case R.id.textView_tag_music:
-                tvTagMusic.setSelect(!tvTagMusic.getSelect());
-                if(tvTagMusic.getSelect()){
-                    tvTagMusic.setBackgroundResource(R.drawable.category_shape_select);
-                }else{
-                    tvTagMusic.setBackgroundResource(R.drawable.category_shape_normal);
-                }
-                break;
-            case R.id.textView_tag_concert:
-                tvTagConcert.setSelect(!tvTagConcert.getSelect());
-                if(tvTagConcert.getSelect()){
-                    tvTagConcert.setBackgroundResource(R.drawable.category_shape_select);
-                }else{
-                    tvTagConcert.setBackgroundResource(R.drawable.category_shape_normal);
-                }
-                break;
-            case R.id.textView_tag_theater:
-                tvTagTheater.setSelect(!tvTagTheater.getSelect());
-                if(tvTagTheater.getSelect()){
-                    tvTagTheater.setBackgroundResource(R.drawable.category_shape_select);
-                }else{
-                    tvTagTheater.setBackgroundResource(R.drawable.category_shape_normal);
-                }
-                break;
-            case R.id.textView_tag_gukak:
-                tvTagGukak.setSelect(!tvTagGukak.getSelect());
-                if(tvTagGukak.getSelect()){
-                    tvTagGukak.setBackgroundResource(R.drawable.category_shape_select);
-                }else{
-                    tvTagGukak.setBackgroundResource(R.drawable.category_shape_normal);
-                }
-                break;
-            case R.id.textView_tag_art:
-                tvTagArt.setSelect(!tvTagArt.getSelect());
-                if(tvTagArt.getSelect()){
-                    tvTagArt.setBackgroundResource(R.drawable.category_shape_select);
-                }else{
-                    tvTagArt.setBackgroundResource(R.drawable.category_shape_normal);
-                }
-                break;
-            case R.id.textView_tag_etc:
-                tvTagEtc.setSelect(!tvTagEtc.getSelect());
-                if(tvTagEtc.getSelect()){
-                    tvTagEtc.setBackgroundResource(R.drawable.category_shape_select);
-                }else{
-                    tvTagEtc.setBackgroundResource(R.drawable.category_shape_normal);
-                }
-                break;
-        }
     }
 }

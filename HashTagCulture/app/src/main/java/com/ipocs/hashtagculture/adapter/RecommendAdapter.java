@@ -1,6 +1,7 @@
 package com.ipocs.hashtagculture.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.ipocs.hashtagculture.activity.DetailActivity;
 import com.ipocs.hashtagculture.model.Culture;
 import com.ipocs.hashtagculture.R;
 import com.ipocs.hashtagculture.utils.TimeUtils;
@@ -29,11 +31,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
     private Context mContext;
     private final LayoutInflater mLayoutInflater;
     private ArrayList<Culture> mCultureArrayList;
+    private int mHostFragmentCode;
 
-    public RecommendAdapter(Context context, ArrayList<Culture> cultureArrayList) {
+    public RecommendAdapter(Context context, ArrayList<Culture> cultureArrayList, int hostFragmentCode) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mCultureArrayList = cultureArrayList;
+        mHostFragmentCode = hostFragmentCode;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
     @Override
     public void onBindViewHolder(RecommendViewHolder holder, int position) {
 
-        Culture item = mCultureArrayList.get(position);
+        final Culture item = mCultureArrayList.get(position);
 
         holder.tvTitle.setText(item.getTitle());
         holder.tvDateStart.setText(TimeUtils.UnixTimeStampToStringDate(item.getStartDate()));
@@ -69,6 +73,15 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
 ////            holder.linearHashtag.addView(hashTag);
 //        }
 
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("hostFragmentCode", mHostFragmentCode);
+                intent.putExtra("id", item.getId());
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -97,5 +110,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
 
             ButterKnife.bind(this, mView);
         }
+    }
+
+    public void setData(ArrayList<Culture> cultureArrayList){
+        mCultureArrayList = cultureArrayList;
+        notifyDataSetChanged();
     }
 }

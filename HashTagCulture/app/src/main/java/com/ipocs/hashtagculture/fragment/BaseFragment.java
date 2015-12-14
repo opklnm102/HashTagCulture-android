@@ -14,6 +14,15 @@ public class BaseFragment extends Fragment {
 
     private BaseActivity hostActivity;
     private String title;
+    private Integer categoryCode;
+
+    public Integer getCategoryCode() {
+        return categoryCode;
+    }
+
+    public void setCategoryCode(Integer categoryCode) {
+        this.categoryCode = categoryCode;
+    }
 
     public String getTitle() {
         return title;
