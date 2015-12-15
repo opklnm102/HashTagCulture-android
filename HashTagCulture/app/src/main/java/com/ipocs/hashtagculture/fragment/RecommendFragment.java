@@ -127,7 +127,7 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
         mSelectTextViews.add(tvTagArt);
         mSelectTextViews.add(tvTagEtc);
 
-        tagShowFlag = false;
+        tagShowFlag = true;
 
         mRecommendAdapter = new RecommendAdapter(getActivity(), mCultureArrayList, super.getCategoryCode());
 
@@ -207,10 +207,10 @@ public class RecommendFragment extends BaseFragment implements View.OnClickListe
 
         switch (super.getCategoryCode()) {
             case Constants.REQUEST_CODE_PERFORMANCE_FRAGMENT:
-                getPerformanceRecommend(categorys, locations, 1416009600, 1420329600);
+                getPerformanceRecommend(categorys, locations, 1316009600, 1520329600);
                 break;
             case Constants.REQUEST_CODE_EXHIBIT_FRAGMENT:
-                getExhibitRecommend(categorys, locations, 1416009600, 1420329600);
+                getExhibitRecommend(categorys, locations, 1316009600, 1520329600);
                 break;
             case Constants.REQUEST_CODE_FESTIVAL_FRAGMENT:
                 break;

@@ -3,26 +3,26 @@ package com.ipocs.hashtagculture.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.TelecomManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import com.ipocs.hashtagculture.R;
 import com.ipocs.hashtagculture.fragment.ExhibitFragment;
 import com.ipocs.hashtagculture.fragment.FestivalFragment;
 import com.ipocs.hashtagculture.fragment.PerformanceFragment;
-import com.ipocs.hashtagculture.R;
-import com.ipocs.hashtagculture.fragment.RecommendFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
 
         final ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            ab.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+            ab.setHomeAsUpIndicator(R.drawable.ic_person_white_24dp);
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -80,6 +80,14 @@ public class MainActivity extends BaseActivity {
 //            public void onTabReselected(TabLayout.Tab tab) {
 //            }
 //        });
+
+        String deviceId = android.provider.Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        setPreferenceUid(deviceId);
+        Log.e(TAG, " 1 " + deviceId);
+
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceid = telephonyManager.getDeviceId();
+        Log.e(TAG, " 2 " + deviceid);
     }
 
     private void setupViewPager(ViewPager viewPager) {

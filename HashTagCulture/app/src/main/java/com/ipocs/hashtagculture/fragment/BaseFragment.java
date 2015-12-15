@@ -12,9 +12,9 @@ import com.ipocs.hashtagculture.utils.BackendHelper;
  */
 public class BaseFragment extends Fragment {
 
-    private BaseActivity hostActivity;
+    protected BaseActivity hostActivity;
     private String title;
-    private Integer categoryCode;
+    protected Integer categoryCode;
 
     public Integer getCategoryCode() {
         return categoryCode;
@@ -30,6 +30,10 @@ public class BaseFragment extends Fragment {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public BaseActivity getHostActivity(){
+        return hostActivity;
     }
 
     protected static BackendHelper requestHelper;
