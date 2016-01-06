@@ -4,6 +4,7 @@ package com.ipocs.hashtagculture.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ipocs.hashtagculture.R;
 import com.ipocs.hashtagculture.fragment.ExhibitFragment;
@@ -208,5 +210,19 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
+    private long mExitModeTime = 0L;
+
+    @Override
+    public void onBackPressed() {
+
+        //Back키를 누르면 먼저 토스트를 통해 알리고, 만일 사용자가 3초 이내에 다시 누르면 종료
+        if(mExitModeTime != 0 && SystemClock.uptimeMillis() - mExitModeTime < 3000){
+            finish();
+        }else{
+            Toast.makeText(this, "이전키를 한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            mExitModeTime = SystemClock.uptimeMillis();
+        }
     }
 }
